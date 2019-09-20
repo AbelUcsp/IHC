@@ -23,10 +23,10 @@ public class Camera_Controller : MonoBehaviour
     {
         H = ( HorizontalSpeed*Input.GetAxis("Mouse X") ); // || Oculus )
         V = ( VerticalSpeed*Input.GetAxis("Mouse Y") ); // || Oculus )
-        transform.Rotate(0,H,0);
+        transform.Rotate(-V/2.1f,H,0);
         FPScamera.transform.Rotate(-V,0,0);
         
-        
+
         //  ini  avanzar   
         Avanzar = transform.position.x;
         if (KinectManager.instance.IsAvailable)

@@ -1,2 +1,0 @@
-# IHC
-Proyect IHC

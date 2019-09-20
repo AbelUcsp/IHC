@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\DeadZone.cs" />
      <Compile Include="Assets\Scripts\GM.cs" />
      <Compile Include="Assets\Scripts\KinectManager.cs" />
+     <Compile Include="Assets\Scripts\mira.cs" />
      <Compile Include="Assets\Scripts\TimedDestroy.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/Abel/Desktop/Asset Shooter/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
