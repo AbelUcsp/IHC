@@ -46,7 +46,6 @@ public class KinectManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    // Use this for initialization
     void Start()
     {
         _sensor = KinectSensor.GetDefault();
@@ -67,10 +66,8 @@ public class KinectManager : MonoBehaviour
             _bodies = new Body[_sensor.BodyFrameSource.BodyCount];
         }
         
-       //_sensor.SkeletonStream.Enable();//HABILITAR STREAM SKELETON
     }
 
-    // Update is called once per frame
     void Update()
     {
         IsAvailable = _sensor.IsAvailable;
@@ -87,12 +84,12 @@ public class KinectManager : MonoBehaviour
                 {
 
                     IsAvailable = true;
-                    //MOVER CON MANO IZQUIERDA
+                    //MOVER kinect
                     //  TrackingConfidence_Low = 0 || TrackingConfidence_High = 1   right = izquierda
-                           // HandRightConfidence   HandLeftConfidence                        
-                    if (body.HandRightConfidence == TrackingConfidence.High )//|| body.HandRightState == HandState.Lasso)
+                    // HandRightConfidence   HandLeftConfidence                        
+                    if( (body.HandRightConfidence == TrackingConfidence.High) )//&& (body.HandRightState == HandState.Lasso))
                     {
-                        IsFire = true;
+                        //IsFire = true;
                         avanzar = 0.02f;
                     }
                     else{
@@ -101,7 +98,14 @@ public class KinectManager : MonoBehaviour
                         handXText.text = Forward.ToString();
                     }
                     //END MOVER
-
+                    // SHOOT KINECT
+                    if( (body.HandLeftConfidence == TrackingConfidence.High) )// && (body.HandLeftState == HandState.Lasso))
+                    {
+                        IsFire = true;
+                    }
+                    else{
+                        IsFire = false;
+                    }
 
                     //DISPARAR
                     for (Windows.Kinect.JointType jt = Windows.Kinect.JointType.SpineBase; jt <= Windows.Kinect.JointType.ThumbRight; jt++)
@@ -117,17 +121,11 @@ public class KinectManager : MonoBehaviour
                     
                 }
                 
-                
-                //if(_bodies[0].IsTracked()){
-                   // IReadOnlyDictionary<JointType, Joint>  joints = body.joints;
-                  //  Windows.Kinect.Body body = this.BodySourceManager.GetClosestBody();
-           
-             //  }
 
                 frame.Dispose();
                 frame = null;
 
-                ///iNI SKELETON
+                
                 
 
             }
@@ -136,7 +134,6 @@ public class KinectManager : MonoBehaviour
 
 
 
-        //Skeleton[] skeletons = new Skeleton[0];
     }
 
     static float RescalingToRangesB(float scaleAStart, float scaleAEnd, float scaleBStart, float scaleBEnd, float valueA)
