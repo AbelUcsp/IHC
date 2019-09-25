@@ -53,9 +53,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\daño.cs" />
+     <Compile Include="Assets\DestroyBala.cs" />
      <Compile Include="Assets\Disparador.cs" />
-     <Compile Include="Assets\DisparadorRaycast.cs" />
      <Compile Include="Assets\KitFPS\Scripts\RandomSpawner.cs" />
      <Compile Include="Assets\Oculus\AudioManager\Scenes\Scripts\TestScript.cs" />
      <Compile Include="Assets\Oculus\AudioManager\Scripts\Audio\AmbienceEmitter.cs" />
@@ -367,9 +366,8 @@
      <Compile Include="Assets\Scripts\Zombie\EnemyAnimator.cs" />
      <Compile Include="Assets\Scripts\Zombie\EnemyController.cs" />
      <Compile Include="Assets\Scripts\Zombie\LogicaZombie.cs" />
-     <Compile Include="Assets\Scripts\Zombie\Vida.cs" />
+     <Compile Include="Assets\Scripts\Zombie\ZombieYoutube.cs" />
      <Compile Include="Assets\SonidoBala.cs" />
-     <Compile Include="Assets\VidaJugador.cs" />
      <None Include="Assets\Oculus\Avatar\Resources\Materials\Version1.5\Avatar_PC_SingleComponent.shader" />
      <None Include="Assets\Oculus\Avatar\Samples\CrossPlatform\Readme.txt" />
      <None Include="Assets\Oculus\SampleFramework\Core\CustomHands\Materials\Hands_DiffBump.shader" />

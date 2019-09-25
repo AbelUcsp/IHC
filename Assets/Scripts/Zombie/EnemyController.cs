@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public enum EnemyState {
     PATROL,
     CHASE,
@@ -43,6 +44,8 @@ public class EnemyController : MonoBehaviour
 
     //private EnemyAudio enemy_Audio;
 
+
+ 
     void Awake() {
         enemy_Anim = GetComponent<EnemyAnimator>();
         navAgent = GetComponent<NavMeshAgent>();
@@ -258,6 +261,9 @@ public class EnemyController : MonoBehaviour
     public EnemyState Enemy_State {
         get; set;
     }
+
+
+
 
 } 
 

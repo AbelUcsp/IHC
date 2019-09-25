@@ -34,16 +34,24 @@ public class Camera_Controller : MonoBehaviour
             
             Avanzar = KinectManager.instance.avanzar;
             //transform.Translate(Vector3.forward * Avanzar); //back    down    forward left    up
-            transform.Translate(Vector3.back * Avanzar);
+           //transform.Translate(Vector3.back * Avanzar);
+            transform.Translate(Vector3.forward * Avanzar);
         }
-        /*  controller oculus
+
+
+
+        //  controller oculus
+        
+        /* 
         else
         {
             Avanzar =  (Input.GetAxis("Vertical") * VerticalSpeed) /100;
-            transform.Translate(Vector3.back * Avanzar);// * Time.deltaTime);
+            transform.Translate(Vector3.forward * 1f);// * Time.deltaTime);
             ///Avanzar =  (Input.GetAxis("Horizontal") * VerticalSpeed) /100;
             ///transform.Translate(Vector3.forward * Avanzar);// * Time.deltaTime);
-        }   //  end avanzar   */
+        }   //  end avanzar  
+        */
+         
 
 
 

@@ -6,31 +6,55 @@ public class Disparador : MonoBehaviour
 {
     public Rigidbody projectile;
     public float speed = 10;
-   
-   
+    public AudioClip GunSound;
+    AudioSource fuente;
+    public Transform puntoDeDisparo;
+    bool couroutineStarted= false;
+
+    void Start(){
+        fuente =  GetComponent<AudioSource>();
+   }
+
     void Update()
     {
-        //if (Municion.CurrentAmmo >= 1){
-        
-        
-            if (Input.GetButtonDown("Fire1") /* ||  kinect */ ){
-                
-                Rigidbody instantiatedProjectile = Instantiate(projectile, transform.position, transform.rotation);
-                //instantiatedProjectile.velocity = transform.TransformDirection( new Vector3( 0, 0, speed*2 ) );
-                instantiatedProjectile.velocity = transform.TransformDirection( new Vector3( 0, 0, 50) );
-                Physics.IgnoreCollision( instantiatedProjectile.GetComponent<Collider>(), transform.root.GetComponent<Collider>() );
-         
-               //Destroy(projectile, 1.0f);
-         
-            }
-            else if (KinectManager.instance.IsAvailable)
-            {
-                if(KinectManager.instance.IsFire){ 
-                    Rigidbody instantiatedProjectile = Instantiate(projectile, transform.position, transform.rotation);
-                    instantiatedProjectile.velocity = transform.TransformDirection( new Vector3( 0, 0, 50) );
-                    Physics.IgnoreCollision( instantiatedProjectile.GetComponent<Collider>(), transform.root.GetComponent<Collider>() );        
-                }
-            }
-    }
+        if(!couroutineStarted)
+            StartCoroutine( disparar() );
     
+    }
+
+    
+    IEnumerator  disparar(){
+        if ( (Input.GetButtonDown("Fire1") || (KinectManager.instance.IsAvailable && KinectManager.instance.IsFire))  ){ // && ballInPlay == false){ 
+                couroutineStarted = true;
+
+                fuente.clip = GunSound;
+                fuente.Play();
+
+                Rigidbody instantiatedProjectile = Instantiate(projectile, transform.position, transform.rotation);
+                instantiatedProjectile.velocity = transform.TransformDirection( Vector3.forward*50);
+                Physics.IgnoreCollision( instantiatedProjectile.GetComponent<Collider>(), transform.root.GetComponent<Collider>() );
+                
+                RaycastHit hit;
+                if(Physics.Raycast(puntoDeDisparo.position, puntoDeDisparo.forward, out hit))
+                {
+                    if (hit.transform.CompareTag("Enemigo"))
+                    {
+                        Vida vida = hit.transform.GetComponent<Vida>();
+                        if(vida == null)
+                        {
+                            throw new System.Exception("No se encontro el componente Vida del Enemigo");
+                        }
+                        else
+                        {
+                            vida.RecibirDanho(25);
+                        }
+                    }
+                }
+                yield return new WaitForSeconds(1);
+                couroutineStarted = false;
+
+      }
+   }
+
+   
 }

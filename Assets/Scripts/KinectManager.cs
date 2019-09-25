@@ -20,11 +20,13 @@ public class KinectManager : MonoBehaviour
 
     public GameObject kinectAvailableText;
     public Text handXText;
+    public Text piernas;
+    public Text kinect;
 
     public bool IsAvailable;
     public float Forward;
     public float avanzar = 0f;
-    public bool IsFire;
+    public bool IsFire = false;
     public int FOOTT = 0;
 
     public static KinectManager instance = null;
@@ -83,23 +85,42 @@ public class KinectManager : MonoBehaviour
                 foreach (var body in _bodies.Where(b => b.IsTracked))
                 {
 
+                    Windows.Kinect.Joint pieIzquierdo = body.Joints[JointType.AnkleLeft];
+                    Windows.Kinect.Joint pieDerecho = body.Joints[JointType.AnkleRight];
                     IsAvailable = true;
-                    //MOVER kinect
-                    //  TrackingConfidence_Low = 0 || TrackingConfidence_High = 1   right = izquierda
-                    // HandRightConfidence   HandLeftConfidence                        
-                    if( (body.HandRightConfidence == TrackingConfidence.High) )//&& (body.HandRightState == HandState.Lasso))
-                    {
-                        //IsFire = true;
-                        avanzar = 0.02f;
+                    
+                    //kinect.text  = pieIzquierdo.Position.Z.ToString();
+                    //piernas.text   = pieDerecho.Position.Z.ToString();
+                    // Mover Kinect
+                    if ( Mathf.Abs(Mathf.Abs(pieIzquierdo.Position.Z) - Mathf.Abs(pieDerecho.Position.Z)) > 0.11){
+                        avanzar = 0.22f;
+                        //handXText.text = "caminar";
                     }
                     else{
                         avanzar = 0f;
+                        //handXText.text = "NO caminar"
+                    }
+    
+                    //Disparar Kinect
+                    //  TrackingConfidence_Low = 0 || TrackingConfidence_High = 1   right = izquierda
+                    // HandRightConfidence   HandLeftConfidence                        
+                    if( (body.HandLeftConfidence == TrackingConfidence.High))//  && (body.HandLeftState == HandState.Lasso))
+                    {
+                        IsFire = true;
+                    }
+                    else{
+                        
+                        IsFire = false;
+                        /* 
                         Forward = RescalingToRangesB(-1, 1, -8, 8, body.Lean.X);
                         handXText.text = Forward.ToString();
+                        */
                     }
                     //END MOVER
                     // SHOOT KINECT
-                    if( (body.HandLeftConfidence == TrackingConfidence.High) )// && (body.HandLeftState == HandState.Lasso))
+
+                    /* 
+                    if( (body.HandLeftConfidence == TrackingConfidence.High)  && (body.HandLeftState == HandState.Lasso))
                     {
                         IsFire = true;
                     }
@@ -107,7 +128,10 @@ public class KinectManager : MonoBehaviour
                         IsFire = false;
                     }
 
-                    //DISPARAR
+                    */
+                    //  END DISPARAR
+
+
                     for (Windows.Kinect.JointType jt = Windows.Kinect.JointType.SpineBase; jt <= Windows.Kinect.JointType.ThumbRight; jt++)
                     {
                         Windows.Kinect.Joint sourceJoint = body.Joints[jt];
@@ -115,25 +139,14 @@ public class KinectManager : MonoBehaviour
                         if(sourceJoint == body.Joints[JointType.ThumbLeft] ){
                             FOOTT = 10;
                             Time.timeScale = 2f;
-                        }
-                            
+                        }  
                     }
-                    
                 }
                 
-
                 frame.Dispose();
                 frame = null;
-
-                
-                
-
             }
-            
         }
-
-
-
     }
 
     static float RescalingToRangesB(float scaleAStart, float scaleAEnd, float scaleBStart, float scaleBEnd, float valueA)
