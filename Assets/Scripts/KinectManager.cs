@@ -18,10 +18,12 @@ public class KinectManager : MonoBehaviour
     private BodyFrameReader _bodyFrameReader;
     private Body[] _bodies = null;
 
+    
     public GameObject kinectAvailableText;
     public Text handXText;
     public Text piernas;
     public Text kinect;
+
 
 
     //public Transform padre;
@@ -94,9 +96,9 @@ public class KinectManager : MonoBehaviour
 
                     Windows.Kinect.Joint pieIzquierdo = body.Joints[JointType.AnkleLeft];
                     Windows.Kinect.Joint pieDerecho = body.Joints[JointType.AnkleRight];
-                    Windows.Kinect.Joint cabeza = body.Joints[JointType.WristRight];
+                    Windows.Kinect.Joint muneca = body.Joints[JointType.WristRight];
                     Windows.Kinect.Joint espina = body.Joints[JointType.SpineBase];
-                    
+                    IsAvailable = true;
                    // kinect.text  = pieIzquierdo.Position.Z.ToString();
                    // piernas.text   = pieDerecho.Position.Z.ToString();
                    
@@ -110,25 +112,27 @@ public class KinectManager : MonoBehaviour
                     //H = ( 2*Input.GetAxis("Mouse X") ); // || Oculus )
                     //V = ( 2*Input.GetAxis("Mouse Y") ); // || Oculus )
                     //padre.Rotate(V,0,0);
-                    float distanceSpineWrist=Mathf.Abs(espina.Position.Y - cabeza.Position.Y);
-                    kinect.text  = distanceSpineWrist.ToString();
-                    if ( distanceSpineWrist > 0.652 ){//(Mathf.Abs(espina.Position.Y) - Mathf.Abs(cabeza.Position.Y)) > 0.18){
-                        RotationPistola = 1f;
+                    float distanceSpineWrist=Mathf.Abs(espina.Position.Y - muneca.Position.Y);
+                    
+                    //kinect.text  = distanceSpineWrist.ToString();
+                    if ( distanceSpineWrist > 0.572 ){//(Mathf.Abs(espina.Position.Y) - Mathf.Abs(cabeza.Position.Y)) > 0.18){
+                        RotationPistola = 0.15f;
+                        
                     }
-                    else if(distanceSpineWrist > 0.17 && distanceSpineWrist < 0.42 ){
-                        RotationPistola =  -1f;
+                    else if(distanceSpineWrist > 0.17 && distanceSpineWrist < 0.46 ){
+                        RotationPistola =  -0.15f;
                         //handXText.text = "NO caminar"
                     }
                     else{
-                        RotationPistola =0;
+                        RotationPistola = 0;
                     }
                     
 
 
                     ///END EDIT
                     // Mover Kinect
-                    if ( Mathf.Abs(Mathf.Abs(pieIzquierdo.Position.Z) - Mathf.Abs(pieDerecho.Position.Z)) > 0.12){
-                        avanzar = 0.018f;
+                    if ( Mathf.Abs(Mathf.Abs(pieIzquierdo.Position.Z) - Mathf.Abs(pieDerecho.Position.Z)) > 0.11){
+                        avanzar = 0.02f;
                         //handXText.text = "caminar";
                     }
                     else{
@@ -140,7 +144,8 @@ public class KinectManager : MonoBehaviour
                     //  TrackingConfidence_Low = 0 || TrackingConfidence_High = 1   right = izquierda
                     // HandRightConfidence   HandLeftConfidence                        
                     //if( (body.HandLeftConfidence == TrackingConfidence.High) && (body.HandLeftState == HandState.Lasso))
-                    if( (body.HandRightConfidence == TrackingConfidence.High) && (body.HandRightState == HandState.Lasso))
+                    ///if( (body.HandRightConfidence == TrackingConfidence.High) && (body.HandRightState == HandState.Lasso))
+                    if( (body.HandRightConfidence == TrackingConfidence.High) && (body.HandRightState == HandState.Open )) 
                     {
                         IsFire = true;
                     }

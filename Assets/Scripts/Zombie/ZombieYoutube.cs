@@ -53,7 +53,7 @@ public class ZombieYoutube : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Walk();
-        //RevisarVida();
+        RevisarVida();
         Perseguir();
         EstaDefrenteAlJugador();
         RevisarAtaque();

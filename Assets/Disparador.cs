@@ -50,7 +50,7 @@ public class Disparador : MonoBehaviour
                         }
                     }
                 }
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(0.25f);
                 couroutineStarted = false;
 
       }
